@@ -1,20 +1,28 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, SafeAreaView, StyleSheet, Image } from 'react-native';
+
+// You can import supported modules from npm
+// import { Card } from 'react-native-paper';
+
+// or any files within the Snack
+import Detected_page from './Detected_page';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={styles.container}>
+      {/* <Card> */}
+        <Detected_page />
+      {/* </Card> */}
+    </SafeAreaView>
   );
 }
 
+
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
+    flex:1,
+    top: -90,
     justifyContent: 'center',
+    backgroundColor: 'white',
   },
+  
 });
