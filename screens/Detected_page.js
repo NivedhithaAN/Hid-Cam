@@ -1,4 +1,6 @@
 import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 
   const styles = StyleSheet.create({
@@ -45,7 +47,7 @@ export default function AssetExample() {
   
   return (
     <View style={styles.container}>
-      <Image style={styles.logo} source={require('./assets/detection.png')} />
+      <Image style={styles.logo} source={require('../assets/detection.png')} />
       
 
       <Text style={styles.paragraph}>
@@ -92,7 +94,7 @@ export default function AssetExample() {
 const HomeButton = () =>{
   return(
       <TouchableOpacity style={styles.button}>
-        <Image style={styles.button} source={require('./assets/home.png')} />
+        { <Image style={styles.button} source={require('../assets/home.png')} /> }
       </TouchableOpacity>
   )
 }
