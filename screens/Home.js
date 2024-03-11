@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Camera } from 'expo-camera';
 
-const ScanPage = () => {
+const ScanPage = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
 
@@ -16,8 +16,7 @@ const ScanPage = () => {
   const handleScan = async () => {
     if (hasPermission) {
       // Navigate to the camera screen
-      // You can use navigation library like react-navigation here
-      console.log('Opening camera...');
+      navigation.navigate('CameraScreen'); // Replace with your actual screen name
     }
   };
 

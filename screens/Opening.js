@@ -1,10 +1,13 @@
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, Image, StatusBar, SafeAreaView } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 const styles = StyleSheet.create({
   logo: {
     height: 100,
     width: 100,
+    backgroundColor: 'white'
   },
   text: {
     marginTop: 25,

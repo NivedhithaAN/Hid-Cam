@@ -7,6 +7,7 @@ import Opening from './screens/Opening';
 import Detected_page from './screens/Detected_page';
 import Deactivated from './screens/Deactivated';
 import Home from './screens/Home';
+import CameraScreen from './screens/CameraScreen';
 
 const styles = StyleSheet.create({
   container: {
@@ -28,6 +29,8 @@ export default function App() {
           <Stack.Screen name="Deactivated" component={Deactivated} />
           <Stack.Screen name="Detected_page" component={Detected_page} />
           <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="CameraScreen" component={CameraScreen} />
+
         </Stack.Navigator>
       </SafeAreaView>
     </NavigationContainer>
