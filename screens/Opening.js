@@ -22,7 +22,7 @@ const Opening = ({ navigation }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       // Navigate to the secure page after 5 seconds
-      navigation.replace('Home');
+      navigation.replace('Login');
     }, 5000); // 5000 milliseconds = 5 secondss
 
     // Clear the timeout when the component is unmounted

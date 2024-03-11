@@ -64,3 +64,4 @@ const styles = StyleSheet.create({
 });
 
 export default CameraScreen;
+export default CameraScreen;

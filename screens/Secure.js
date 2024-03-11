@@ -3,7 +3,6 @@ import React from 'react'
 import {useNavigation, NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -18,11 +17,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginLeft: 85
  },
+
 imgContainer: {
     alignItems: 'center',
     justifyContent: 'center',
     padding: 24,
   },
+  
   paragraph: {
     margin: 24,
     fontSize: 18,
@@ -30,6 +31,7 @@ imgContainer: {
     textAlign: 'center',
     color:'green',
   },
+
 logo: {
     height: 243,
     width: 220,
