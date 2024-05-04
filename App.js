@@ -14,6 +14,8 @@ import Complaints from './screens/Complaints';
 import Myprofile from './screens/Myprofile';
 
 
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -41,6 +43,7 @@ export default function App() {
           <Stack.Screen name="Current_locations" component={Current_locations}/>
           <Stack.Screen name="Complaints" component={Complaints}/>
           <Stack.Screen name="Myprofile" component={Myprofile}/>
+         
 
 
         </Stack.Navigator>

@@ -21,7 +21,7 @@ const MyComponent = () => {
     // Close sidebar after selecting an option
     setSidebarOpen(false);
   };
-
+ 
   const handleScanPress = () => {
     navigation.navigate('CameraScreen');
   };

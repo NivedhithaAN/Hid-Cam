@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import Geolocation from '@react-native-geolocation/geolocation';
+import Geolocation from 'react-native-geolocation-service';
+import * as Location from 'expo-location';
 
 const styles = StyleSheet.create({
   homeButton: {
@@ -60,19 +61,31 @@ const styles = StyleSheet.create({
 export default function AssetExample() {
   const navigation = useNavigation();
   const [coordinates, setCoordinates] = useState({latitude: null, longitude: null});
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+
 
   useEffect(() => {
-    // Fetch device location coordinates
-    Geolocation.getCurrentPosition(
-      position => {
-        const { latitude, longitude } = position.coords;
-        setCoordinates({ latitude, longitude });
-      },
-      error => console.log(error.message),
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-    );
+    (async () => {
+      
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      // setLocation(location);
+      console.log(location);
+    })();
   }, []);
 
+  
+
+  
+
+  
+  
   const handleHomePress = () => {
     navigation.navigate('Home'); // Navigate to Home screen
   };
@@ -84,6 +97,7 @@ export default function AssetExample() {
       <Table />
       <Text style={styles.coordinates}>Latitude: {coordinates.latitude}, Longitude: {coordinates.longitude}</Text>
       <HomeButton onPress={handleHomePress} />
+      
     </View>
   );
 }
