@@ -17,6 +17,7 @@ const MapComponent = () => {
         initialRegion={{
           latitude: 37.78825,
           longitude: -122.4324,
+          accuracy: null,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}

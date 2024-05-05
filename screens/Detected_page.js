@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, Image, TouchableOpacity, Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import Geolocation from 'react-native-geolocation-service';
 import * as Location from 'expo-location';
 
 const styles = StyleSheet.create({
@@ -14,7 +13,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    marginTop:150
+    marginTop: 150
   },
   homeButtonIcon: {
     width: 30,
@@ -60,32 +59,29 @@ const styles = StyleSheet.create({
 
 export default function AssetExample() {
   const navigation = useNavigation();
-  const [coordinates, setCoordinates] = useState({latitude: null, longitude: null});
-  const [location, setLocation] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
-
+  const [coordinates, setCoordinates] = useState({ latitude: null, longitude: null ,Accuracy: null});
 
   useEffect(() => {
     (async () => {
-      
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
+        console.log('Permission to access location was denied');
         return;
       }
 
       let location = await Location.getCurrentPositionAsync({});
-      // setLocation(location);
-      console.log(location);
+      setCoordinates({ latitude: location.coords.latitude, longitude: location.coords.longitude, accuracy: location.coords.accuracy, });
     })();
   }, []);
 
-  
+  const handleNavigation = () => {
+    navigation.navigate('Detections', { // Navigate with parameters
+      latitude: coordinates.latitude,
+      longitude: coordinates.longitude,
+      accuracy: coordinates.accuracy,
+    });
+  };
 
-  
-
-  
-  
   const handleHomePress = () => {
     navigation.navigate('Home'); // Navigate to Home screen
   };
@@ -94,42 +90,41 @@ export default function AssetExample() {
     <View style={styles.container}>
       <Image style={styles.logo} source={require('../assets/detection.png')} />
       <Text style={styles.paragraph}>CAMERA DETECTED !</Text>
-      <Table />
-      <Text style={styles.coordinates}>Latitude: {coordinates.latitude}, Longitude: {coordinates.longitude}</Text>
+      <Table coordinates={coordinates} />
       <HomeButton onPress={handleHomePress} />
-      
+      <Button  title="Location" onPress={handleNavigation}/>
     </View>
   );
 }
 
-const Table = () => {
+const Table = ({ coordinates }) => {
   return (
     <View style={styles.container}>
       {/* First Row */}
       <View style={styles.row}>
         <View style={styles.cell}>
-          <Text>X coordinate</Text>
+          <Text>Latitude</Text>
         </View>
         <View style={styles.cell}>
-          <Text>-1</Text>
+          <Text style={styles.coordinates}>{coordinates.latitude}</Text>
         </View>
       </View>
       {/* Second Row */}
       <View style={styles.row}>
         <View style={styles.cell}>
-          <Text>Y coordinate</Text>
+          <Text>Longitude</Text>
         </View>
         <View style={styles.cell}>
-          <Text>-1</Text>
+          <Text style={styles.coordinates}>{coordinates.longitude}</Text>
         </View>
       </View>
       {/* Third Row */}
       <View style={styles.row}>
         <View style={styles.cell}>
-          <Text>Z coordinate</Text>
+          <Text>Accuracy</Text>
         </View>
         <View style={styles.cell}>
-          <Text>-1</Text>
+          <Text style={styles.coordinates}>{coordinates.accuracy} meters</Text>
         </View>
       </View>
     </View>

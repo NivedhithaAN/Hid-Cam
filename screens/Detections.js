@@ -1,42 +1,95 @@
-import React from 'react';
-import { View, StyleSheet, Image, TouchableOpacity,Text } from 'react-native';
-import MapView, { Marker, Callout } from 'react-native-maps';
-import { useNavigation } from '@react-navigation/native'; // Import navigation hook
+// import React from 'react';
+// import { View, StyleSheet, Image, TouchableOpacity, Text } from 'react-native';
+// import MapView, { Marker, Callout } from 'react-native-maps';
+// import { useRoute } from '@react-navigation/native';
 
-const geojson = {
-  type: 'FeatureCollection',
-  features: [
-    {
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: [13.0827, 80.2707]
-      },
-      properties: {
-        title: 'Chennai',
-        description: 'Chennai'
-      }
-    },
-    {
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: [12.9716,  77.5946]
-      },
-      properties: {
-        title: 'Bengaluru',
-        description: 'Bengaluru'
-      }
-    }
-  ]
-};
+// const Detections = () => {
+//   const route = useRoute(); // Get the navigation parameters
+
+//   // Get the coordinates from the route parameters
+//   const { latitude, longitude, accuracy } = route.params || {};
+
+//   const markers = [
+//     {
+//       latitude,
+//       longitude,
+//       accuracy,
+//       title: 'Detected Camera',
+//       description: `Accuracy: ${accuracy} meters`,
+//     },
+//   ];
+
+//   return (
+//     <View style={styles.container}>
+//       <MapView
+//         style={styles.map}
+//         initialRegion={{
+//           latitude: 20.5937,
+//           longitude: 78.9629,
+//           latitudeDelta: 30,
+//           longitudeDelta: 30,
+//         }}
+//       >
+//         {markers.map((marker, index) => (
+//           <Marker
+//             key={index}
+//             coordinate={{
+//               latitude: marker.latitude,
+//               longitude: marker.longitude,
+//             }}
+//           >
+//             <Image source={require('../assets/camera.png')} style={styles.markerIcon} />
+//             <Callout>
+//               <View>
+//                 <Text>{marker.title}</Text>
+//                 <Text>{marker.description}</Text>
+//               </View>
+//             </Callout>
+//           </Marker>
+//         ))}
+//       </MapView>
+//     </View>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   container: {
+//     ...StyleSheet.absoluteFillObject,
+//     justifyContent: 'flex-end',
+//     alignItems: 'center',
+//   },
+//   map: {
+//     ...StyleSheet.absoluteFillObject,
+//   },
+//   markerIcon: {
+//     width: 50,
+//     height: 50,
+//   },
+// });
+
+// export default Detections;
+
+import React from 'react';
+import { View, StyleSheet, Image, TouchableOpacity, Text } from 'react-native';
+import MapView, { Marker, Callout } from 'react-native-maps';
+import { useRoute } from '@react-navigation/native';
 
 const Detections = () => {
-  const navigation = useNavigation(); // Initialize navigation
+  const route = useRoute(); // Get navigation parameters
+  const { latitude, longitude, accuracy } = route.params || {};
 
-  const handleHomePress = () => {
-    navigation.navigate('Home'); // Navigate to Home screen
-  };
+  const markers = [];
+
+  // Ensure coordinates are defined and valid numbers
+  if (typeof latitude === 'number' && typeof longitude === 'number') {
+    markers.push({
+      latitude,
+      longitude,
+      accuracy,
+      title: 'Detected Camera',
+      description: `Accuracy: ${accuracy} meters`,
+    });
+  }
 
   return (
     <View style={styles.container}>
@@ -46,63 +99,45 @@ const Detections = () => {
           latitude: 20.5937,
           longitude: 78.9629,
           latitudeDelta: 30,
-          longitudeDelta: 30
+          longitudeDelta: 30,
         }}
       >
-        {geojson.features.map((feature, index) => (
+        {markers.map((marker, index) => (
           <Marker
             key={index}
             coordinate={{
-              latitude: feature.geometry.coordinates[0],
-              longitude: feature.geometry.coordinates[1]
+              latitude: marker.latitude,
+              longitude: marker.longitude,
             }}
           >
-            {/* Use Image component to display custom marker icon */}
             <Image source={require('../assets/camera.png')} style={styles.markerIcon} />
             <Callout>
               <View>
-                <Text>{feature.properties.title}</Text>
-                <Text>{feature.properties.description}</Text>
+                <Text>{marker.title}</Text>
+                <Text>{marker.description}</Text>
               </View>
             </Callout>
           </Marker>
         ))}
       </MapView>
-      {/* Home button */}
-      <TouchableOpacity style={styles.homeButton} onPress={handleHomePress}>
-        <Image source={require('../assets/home.png')} style={styles.homeButtonIcon} />
-      </TouchableOpacity>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
     justifyContent: 'flex-end',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   map: {
-    ...StyleSheet.absoluteFillObject
+    ...StyleSheet.absoluteFillObject,
   },
   markerIcon: {
     width: 50,
-    height: 50
-  },
-  homeButton: {
-    position: 'absolute',
-    bottom: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.7)',
-    width: 50,
     height: 50,
-    borderRadius: 25,
-  },
-  homeButtonIcon: {
-    width: 30,
-    height: 30,
   },
 });
 
 export default Detections;
+
