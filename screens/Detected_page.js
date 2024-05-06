@@ -2,6 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { Text, View, StyleSheet, Image, TouchableOpacity, Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as Location from 'expo-location';
+import { getDatabase, ref, push } from 'firebase/database';
+import { initializeApp } from 'firebase/app';
+
+const firebaseConfig = {
+
+  apiKey: "AIzaSyBzv32yvkY4IHjbxHU2rT5DV-ILnpep1E4",
+  authDomain: "hid-cam-a2905.firebaseapp.com",
+  databaseURL: "https://hid-cam-a2905-default-rtdb.firebaseio.com",
+  projectId: "hid-cam-a2905",
+  storageBucket: "hid-cam-a2905.appspot.com",
+  messagingSenderId: "253249184813",
+  appId: "1:253249184813:web:6df919c57d21ec9c81c4a4"
+
+};
+const app = initializeApp(firebaseConfig);
+
+const db = getDatabase();
 
 const styles = StyleSheet.create({
   homeButton: {
@@ -57,9 +74,11 @@ const styles = StyleSheet.create({
   },
 });
 
+
+
 export default function AssetExample() {
   const navigation = useNavigation();
-  const [coordinates, setCoordinates] = useState({ latitude: null, longitude: null ,Accuracy: null});
+  const [coordinates, setCoordinates] = useState({ latitude: null, longitude: null, accuracy: null });
 
   useEffect(() => {
     (async () => {
@@ -70,12 +89,22 @@ export default function AssetExample() {
       }
 
       let location = await Location.getCurrentPositionAsync({});
-      setCoordinates({ latitude: location.coords.latitude, longitude: location.coords.longitude, accuracy: location.coords.accuracy, });
+      const { latitude, longitude, accuracy } = location.coords;
+      setCoordinates({ latitude, longitude, accuracy });
+
+      // Write data to Firebase Realtime Database
+      if (latitude && longitude) {
+        push(ref(db, 'coordinates'), {
+          latitude,
+          longitude,
+          timestamp: new Date().toISOString()
+        });
+      }
     })();
   }, []);
 
   const handleNavigation = () => {
-    navigation.navigate('Detections', { // Navigate with parameters
+    navigation.navigate('Detections', {
       latitude: coordinates.latitude,
       longitude: coordinates.longitude,
       accuracy: coordinates.accuracy,
@@ -83,7 +112,7 @@ export default function AssetExample() {
   };
 
   const handleHomePress = () => {
-    navigation.navigate('Home'); // Navigate to Home screen
+    navigation.navigate('Home');
   };
 
   return (
@@ -92,7 +121,7 @@ export default function AssetExample() {
       <Text style={styles.paragraph}>CAMERA DETECTED !</Text>
       <Table coordinates={coordinates} />
       <HomeButton onPress={handleHomePress} />
-      <Button  title="Location" onPress={handleNavigation}/>
+      <Button title="Location" onPress={handleNavigation} />
     </View>
   );
 }
@@ -130,6 +159,7 @@ const Table = ({ coordinates }) => {
     </View>
   );
 };
+
 
 const HomeButton = ({ onPress }) => {
   return (
