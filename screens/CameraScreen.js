@@ -31,7 +31,7 @@ export default function App() {
     if (hasPermission && !smallButtonClicked) {
       timeout = setTimeout(() => {
         navigation.navigate('Detected_page'); // Navigate to Detected_page
-      }, 7000); // 7 seconds delay
+      }, 10000); // 10 seconds delay
     }
     return () => clearTimeout(timeout);
   }, [hasPermission, smallButtonClicked, navigation]);

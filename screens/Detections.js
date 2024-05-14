@@ -68,28 +68,32 @@
 // });
 
 // export default Detections;
-
-import React from 'react';
-import { View, StyleSheet, Image, TouchableOpacity, Text } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, Image, Text } from 'react-native';
 import MapView, { Marker, Callout } from 'react-native-maps';
-import { useRoute } from '@react-navigation/native';
+import { getDatabase, ref, onValue } from 'firebase/database';
+
+const db = getDatabase();
 
 const Detections = () => {
-  const route = useRoute(); // Get navigation parameters
-  const { latitude, longitude, accuracy } = route.params || {};
+  const [markers, setMarkers] = useState([]);
 
-  const markers = [];
-
-  // Ensure coordinates are defined and valid numbers
-  if (typeof latitude === 'number' && typeof longitude === 'number') {
-    markers.push({
-      latitude,
-      longitude,
-      accuracy,
-      title: 'Detected Camera',
-      description: `Accuracy: ${accuracy} meters`,
+  useEffect(() => {
+    const coordinatesRef = ref(db, 'coordinates');
+    onValue(coordinatesRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        const newMarkers = Object.values(data).map((coordinate) => ({
+          latitude: coordinate.latitude,
+          longitude: coordinate.longitude,
+          accuracy: coordinate.accuracy,
+          title: 'Detected Camera',
+          description: `Accuracy: ${coordinate.accuracy} meters`,
+        }));
+        setMarkers(newMarkers);
+      }
     });
-  }
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -140,4 +144,3 @@ const styles = StyleSheet.create({
 });
 
 export default Detections;
-

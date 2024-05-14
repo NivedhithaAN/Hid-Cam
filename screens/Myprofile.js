@@ -5,8 +5,8 @@ import { useNavigation } from '@react-navigation/native';
 
 const MainComponent = () => {
   const [user, setUser] = useState({
-    name: "John Doe",
-    email: "johndoe@example.com",
+    name: "Poornima T V",
+    email: "poornima@example.com",
     profileImage: require('../assets/default_profile.png'), // Default profile image
   });
 
