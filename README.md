@@ -1,1 +1,1 @@
-Detected-page added: contains home and coordinates of the devices
+A Hardware based Mobile application system that detects hidden/spy cameras
